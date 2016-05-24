@@ -1,10 +1,7 @@
 <?php
 namespace Qiniu;
 
-use \Qiniu\Utils;
-use \Qiniu\HttpRequest;
-
-class Credentials
+class Mac
 {
     public $_accessKey;
     public $_secretKey;
