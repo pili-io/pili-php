@@ -99,6 +99,9 @@ class Stream
             case 'dynamic':
                 $url = $this->_rtmpPublishDynamicUrl();
                 break;
+            case 'expiry_sk':
+                $url = $this->_rtmpPublishExpireUrl();
+                break;
             default:
                 $url = $this->_rtmpPublishBaseUrl();
                 break;
@@ -110,6 +113,14 @@ class Stream
     {
         $nonce = time();
         $url = sprintf("%s?nonce=%d&token=%s", $this->_rtmpPublishBaseUrl(), $nonce, $this->_publishDynamicToken($nonce));
+        return $url;
+    }
+
+    private function _rtmpPublishExpireUrl()
+    {
+        $expire = time() + 3600;
+        $token =  $this->_publishExpireToken($expire);
+        $url = sprintf("%s?e=%s&token=%s", $this->_rtmpPublishBaseUrl(), $expire, $token);
         return $url;
     }
 
@@ -137,6 +148,14 @@ class Stream
         $data .= $separator . 'nonce=' . $nonce;
         $publishToken = Utils::sign($this->publishKey, $data);
         return $publishToken;
+    }
+
+    private function _publishExpireToken($expire)
+    {
+        $path = "/{$this->hub}/{$this->title}?e={$expire}";
+        $credentials = $this->_transport->getCredentials();
+        $token = $credentials->_accessKey . ":" . Utils::sign($credentials->_secretKey, $path);
+        return $token;
     }
 
     // RTMP Live Play URLs

@@ -15,6 +15,11 @@ final class Transport
     	$this->_credentials = $credentials; 
     }
 
+    public function getCredentials()
+    {
+        return $this->_credentials;
+    }
+
     public function send($method, $url, $body = NULL)
     {
         $headers = $this->_setHeaders($method, $url, $body);
