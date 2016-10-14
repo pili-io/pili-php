@@ -154,7 +154,8 @@ class Stream
     {
         $path = "/{$this->hub}/{$this->title}?e={$expire}";
         $credentials = $this->_transport->getCredentials();
-        return $credentials->_accessKey . ":" . Utils::sign($credentials->_secretKey, $path);
+        $token = $credentials->_accessKey . ":" . Utils::sign($credentials->_secretKey, $path);
+        return $token;
     }
 
     // RTMP Live Play URLs
