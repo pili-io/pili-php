@@ -46,6 +46,11 @@ class Stream
         return json_encode($this->_data);
     }
 
+    public function toArray()
+    {
+        return $this->_data;
+    }
+
     public function status()
     {
         return Api::streamStatus($this->_transport, $this->id);
